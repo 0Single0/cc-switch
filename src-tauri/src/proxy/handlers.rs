@@ -424,10 +424,20 @@ async fn handle_claude_transform(
         } else {
             std::time::Duration::ZERO
         };
-    let (mut response_headers, _status, body_bytes) =
+    let (mut response_headers, status, body_bytes) =
         read_decoded_body(response, ctx.tag, body_timeout).await?;
 
     let body_str = String::from_utf8_lossy(&body_bytes);
+    if !status.is_success() {
+        log::warn!(
+            "[Claude] upstream returned HTTP {} for {} (provider: {}, model: {}), body (first 2000): {}",
+            status.as_u16(),
+            ctx.app_type_str,
+            ctx.provider.name,
+            ctx.request_model,
+            &body_str[..body_str.len().min(2000)],
+        );
+    }
 
     let upstream_response: Value = if aggregate_codex_oauth_responses_sse {
         responses_sse_to_response_value(&body_str)?
@@ -911,6 +921,16 @@ async fn handle_codex_chat_to_responses_transform(
     let (mut response_headers, status, body_bytes) =
         read_decoded_body(response, ctx.tag, body_timeout).await?;
     let body_str = String::from_utf8_lossy(&body_bytes);
+    if !status.is_success() {
+        log::warn!(
+            "[Codex] upstream returned HTTP {} for {} (provider: {}, model: {}), body (first 2000): {}",
+            status.as_u16(),
+            ctx.app_type_str,
+            ctx.provider.name,
+            ctx.request_model,
+            &body_str[..body_str.len().min(2000)],
+        );
+    }
     let chat_response: Value = match serde_json::from_slice(&body_bytes) {
         Ok(value) => value,
         // 与 Claude 侧 handle_claude_transform 对称的兜底嗅探（#2234）：

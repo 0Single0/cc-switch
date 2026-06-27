@@ -517,7 +517,14 @@ pub fn openai_to_anthropic(body: Value) -> Result<Value, ProxyError> {
     let choices = body
         .get("choices")
         .and_then(|c| c.as_array())
-        .ok_or_else(|| ProxyError::TransformError("No choices in response".to_string()))?;
+        .ok_or_else(|| {
+            let snippet = serde_json::to_string(&body).unwrap_or_default();
+            log::error!(
+                "[Transform] No choices in response, upstream body (first 2000 chars): {}",
+                &snippet[..snippet.len().min(2000)]
+            );
+            ProxyError::TransformError("No choices in response".to_string())
+        })?;
 
     let choice = choices
         .first()

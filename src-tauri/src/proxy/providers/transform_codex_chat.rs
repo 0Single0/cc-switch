@@ -1242,7 +1242,14 @@ pub(crate) fn chat_completion_to_response_with_context(
     let choices = body
         .get("choices")
         .and_then(|v| v.as_array())
-        .ok_or_else(|| ProxyError::TransformError("No choices in chat response".to_string()))?;
+        .ok_or_else(|| {
+            let snippet = serde_json::to_string(&body).unwrap_or_default();
+            log::error!(
+                "[CodexChat] No choices in chat response, upstream body (first 2000 chars): {}",
+                &snippet[..snippet.len().min(2000)]
+            );
+            ProxyError::TransformError("No choices in chat response".to_string())
+        })?;
     let choice = choices
         .first()
         .ok_or_else(|| ProxyError::TransformError("Empty choices in chat response".to_string()))?;
