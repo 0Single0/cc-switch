@@ -91,6 +91,42 @@ export const providerPresets: ProviderPreset[] = [
     iconColor: "#D4915D",
   },
   {
+    name: "大模型网关",
+    websiteUrl: "http://221.5.60.136:30100/api/ai-gateway",
+    settingsConfig: {
+      env: {
+        ANTHROPIC_BASE_URL: "http://221.5.60.136:30100/api/ai-gateway",
+        ANTHROPIC_AUTH_TOKEN: "",
+        ANTHROPIC_MODEL: "GLM-5.2-RTZS",
+        ANTHROPIC_DEFAULT_HAIKU_MODEL: "GLM-5.2-RTZS",
+        ANTHROPIC_DEFAULT_SONNET_MODEL: "GLM-5.2-RTZS",
+        ANTHROPIC_DEFAULT_OPUS_MODEL: "GLM-5.2-RTZS",
+      },
+    },
+    apiFormat: "openai_chat",
+    category: "third_party",
+    endpointCandidates: ["http://221.5.60.136:30100/api/ai-gateway"],
+    icon: "fboss",
+  },
+  {
+    name: "FBOSS",
+    websiteUrl: "http://120.52.65.182:30500",
+    settingsConfig: {
+      env: {
+        ANTHROPIC_BASE_URL: "http://120.52.65.182:30546",
+        ANTHROPIC_AUTH_TOKEN: "",
+        ANTHROPIC_MODEL: "glm-5.2",
+        ANTHROPIC_DEFAULT_HAIKU_MODEL: "glm-5.2",
+        ANTHROPIC_DEFAULT_SONNET_MODEL: "glm-5.2",
+        ANTHROPIC_DEFAULT_OPUS_MODEL: "glm-5.2",
+      },
+    },
+    apiFormat: "openai_chat",
+    category: "third_party",
+    endpointCandidates: ["http://120.52.65.182:30546"],
+    icon: "fboss",
+  },
+  {
     name: "Shengsuanyun",
     nameKey: "providerForm.presets.shengsuanyun",
     websiteUrl: "https://www.shengsuanyun.com/?from=CH_4HHXMRYF",
@@ -368,7 +404,7 @@ export const providerPresets: ProviderPreset[] = [
   },
   {
     name: "Kimi",
-    primePartner: true,
+    primePartner: false,
     websiteUrl: "https://platform.moonshot.cn/console?aff=cc-switch",
     settingsConfig: {
       env: {
@@ -386,7 +422,7 @@ export const providerPresets: ProviderPreset[] = [
   },
   {
     name: "Kimi For Coding",
-    primePartner: true,
+    primePartner: false,
     websiteUrl: "https://www.kimi.com/code/docs/?aff=cc-switch",
     settingsConfig: {
       env: {

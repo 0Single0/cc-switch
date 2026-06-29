@@ -1935,7 +1935,8 @@ impl RequestForwarder {
             } else {
                 send.await
             };
-            let reqwest_resp = send_result.map_err(map_reqwest_send_error)?;
+            let reqwest_resp = send_result
+                .map_err(map_reqwest_send_error)?;
             ProxyResponse::Reqwest(reqwest_resp)
         } else {
             // HTTP 代理或直连：走 hyper raw write（保持 header 大小写）
@@ -2548,9 +2549,13 @@ fn map_reqwest_send_error(error: reqwest::Error) -> ProxyError {
     if error.is_timeout() {
         ProxyError::Timeout(format!("请求超时: {error}"))
     } else if error.is_connect() {
-        ProxyError::ForwardFailed(format!("连接失败: {error}"))
+        ProxyError::ForwardFailed(format!(
+            "连接失败: {error} (可能是服务器不可达、端口未开放或 DNS 解析失败)"
+        ))
+    } else if error.is_request() {
+        ProxyError::ForwardFailed(format!("请求发送失败: {error}"))
     } else {
-        ProxyError::ForwardFailed(error.to_string())
+        ProxyError::ForwardFailed(format!("转发错误: {error}"))
     }
 }
 

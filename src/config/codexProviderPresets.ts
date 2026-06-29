@@ -102,6 +102,68 @@ export const codexProviderPresets: CodexProviderPreset[] = [
     iconColor: "#00A67E",
   },
   {
+    name: "大模型网关",
+    websiteUrl: "http://221.5.60.136:30100",
+    auth: generateThirdPartyAuth(""),
+    config: `model_provider = "custom"
+model = "GLM-5.2-RTZS"
+model_reasoning_effort = "high"
+disable_response_storage = true
+
+[model_providers.custom]
+name = "FBOSS"
+base_url = "http://221.5.60.136:30100/api/ai-gateway/v1"
+wire_api = "chat"
+requires_openai_auth = true`,
+    endpointCandidates: ["http://221.5.60.136:30100/api/ai-gateway/v1"],
+    apiFormat: "openai_chat",
+    modelCatalog: modelCatalog([
+      {
+        model: "GLM-5.2-RTZS",
+        displayName: "GLM-5.2-RTZS",
+        contextWindow: 200000,
+      },
+    ]),
+    codexChatReasoning: {
+      supportsThinking: true,
+      supportsEffort: false,
+      thinkingParam: "thinking",
+      effortParam: "none",
+      outputFormat: "reasoning_content",
+    },
+    category: "third_party",
+    icon: "fboss",
+  },
+  {
+    name: "FBOSS",
+    websiteUrl: "http://120.52.65.182:30500",
+    auth: generateThirdPartyAuth(""),
+    config: `model_provider = "custom"
+model = "glm-5.2"
+model_reasoning_effort = "high"
+disable_response_storage = true
+
+[model_providers.custom]
+name = "FBOSS"
+base_url = "http://120.52.65.182:30546/v1"
+wire_api = "chat"
+requires_openai_auth = true`,
+    endpointCandidates: ["http://120.52.65.182:30546/v1"],
+    apiFormat: "openai_chat",
+    modelCatalog: modelCatalog([
+      { model: "glm-5.2", displayName: "GLM-5.2-", contextWindow: 200000 },
+    ]),
+    codexChatReasoning: {
+      supportsThinking: true,
+      supportsEffort: false,
+      thinkingParam: "thinking",
+      effortParam: "none",
+      outputFormat: "reasoning_content",
+    },
+    category: "third_party",
+    icon: "fboss",
+  },
+  {
     name: "Shengsuanyun",
     nameKey: "providerForm.presets.shengsuanyun",
     websiteUrl: "https://www.shengsuanyun.com/?from=CH_4HHXMRYF",
@@ -421,7 +483,7 @@ requires_openai_auth = true`,
   },
   {
     name: "Kimi",
-    primePartner: true,
+    primePartner: false,
     websiteUrl: "https://platform.moonshot.cn/console?aff=cc-switch",
     apiKeyUrl: "https://platform.moonshot.cn/console/api-keys?aff=cc-switch",
     auth: generateThirdPartyAuth(""),
@@ -452,7 +514,7 @@ requires_openai_auth = true`,
   },
   {
     name: "Kimi For Coding",
-    primePartner: true,
+    primePartner: false,
     websiteUrl: "https://www.kimi.com/code/docs/",
     apiKeyUrl: "https://www.kimi.com/code/",
     auth: generateThirdPartyAuth(""),

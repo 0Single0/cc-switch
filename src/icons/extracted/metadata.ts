@@ -514,6 +514,13 @@ export const iconMetadata: Record<string, IconMetadata> = {
     keywords: ["eflowcode", "e-flowcode", "flow"],
     defaultColor: "currentColor",
   },
+  fboss: {
+    name: "fboss",
+    displayName: "FBOSS",
+    category: "ai-provider",
+    keywords: ["fboss", "boss"],
+    defaultColor: "#1E88E5",
+  },
   shengsuanyun: {
     name: "shengsuanyun",
     displayName: "Shengsuanyun",
